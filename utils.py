@@ -250,7 +250,9 @@ def plot_lines_with_right_area(
             y_axis=list(y_data),
             is_symbol_show=False,
             yaxis_index=0,
-        )
+        ).set_series_opts(
+        linestyle_opts=opts.LineStyleOpts(width=3),
+    )
 
     # 2. 处理右轴（关键修改部分）
     if right_y_data is not None:
@@ -269,16 +271,16 @@ def plot_lines_with_right_area(
             series_name=right_y_name,
             y_axis=list(right_y_data),
             stack="stack_group",
-            is_symbol_show=False,
+            is_symbol_show=False,  # 不显示数据点标记
             areastyle_opts=opts.AreaStyleOpts(
-                opacity=0.3,
-                color="#FF7F0E",
+                opacity=0.3,  # 透明度
+                color="#808080",  # 灰色 (#808080 是标准灰色)
             ),
             linestyle_opts=opts.LineStyleOpts(
-                width=2,
-                color="#FF7F0E",
+                width=0,  # 线宽设为 0（隐藏线条）
+                color=None,  # 颜色设为 None（可选）
             ),
-            label_opts=opts.LabelOpts(is_show=False),  # 关闭静态标签
+            label_opts=opts.LabelOpts(is_show=False),  # 关闭标签
             yaxis_index=1,
         )
 

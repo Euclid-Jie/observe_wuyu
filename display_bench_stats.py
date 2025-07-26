@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 import sqlalchemy
 from pathlib import Path
 from utils import (
@@ -10,6 +11,7 @@ from datetime import datetime
 from zoneinfo import ZoneInfo
 from utils import load_bais
 import os
+
 SQL_PASSWORDS = os.environ["SQL_PASSWORDS"]
 SQL_HOST = os.environ["SQL_HOST"]
 
@@ -31,7 +33,6 @@ for code in [
     "000905.SH",
     "000852.SH",
     "932000.CSI",
-    "8841425.WI",
     "868008.WI",
 ]:
     sub_data = bench_basic_data[bench_basic_data["code"] == code]
@@ -40,6 +41,15 @@ for code in [
         (sub_data["AMT"].values / all_data["AMT"].values) // 0.01 / 100
     )
     names.append(bench_info_wind[bench_info_wind["code"] == code]["name"].values[0])
+names[-1] = "微盘股"
+
+# 计算小市值
+small_amt = all_data["AMT"].values // 1e8 - np.array(ys_data).sum(axis=0)
+small_amt_percent = np.round(1 - np.array(all_volumeRMB_percent).sum(axis=0), 2)
+# 插入到倒数第二个
+ys_data.insert(-1, small_amt)
+all_volumeRMB_percent.insert(-1, small_amt_percent)
+names.insert(-1, "小市值")
 
 chart1 = plot_stacked_area_with_right_line(
     sub_data["date"].values,
