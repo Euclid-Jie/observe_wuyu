@@ -114,7 +114,7 @@ def plot_lines_chart(
             )
         ],
     ).set_series_opts(
-        linestyle_opts=opts.LineStyleOpts(width=3),
+        linestyle_opts=opts.LineStyleOpts(width=2),
     )
     return line
 
@@ -144,14 +144,14 @@ def plot_stacked_area_with_right_line(
 
     # 左轴颜色系
     color_series = [
-        "#5470C6",
-        "#91CC75",
-        "#FAC858",
-        "#EE6666",
-        "#73C0DE",
-        "#3BA272",
-        "#FC8452",
-        "#9A60B4",
+        "#2A4B8C",
+        "#5DAA4D",
+        "#D89B2D",
+        "#C54B2B",
+        "#3A8DAE",
+        "#2F6A5A",
+        "#C75A2E",
+        "#6A4A8A",
     ]
 
     # 1. 绘制左轴堆叠面积图
@@ -165,7 +165,7 @@ def plot_stacked_area_with_right_line(
                 opacity=0.3, color=color_series[i % len(color_series)]
             ),
             linestyle_opts=opts.LineStyleOpts(
-                width=2, color=color_series[i % len(color_series)]
+                width=0, color=color_series[i % len(color_series)]
             ),
             label_opts=opts.LabelOpts(is_show=False),
             yaxis_index=0,
@@ -191,6 +191,9 @@ def plot_stacked_area_with_right_line(
             label_opts=opts.LabelOpts(is_show=False),
             z_level=3,
             yaxis_index=1,
+            linestyle_opts=opts.LineStyleOpts(
+                width=2,
+            ),
         )
 
     # 全局配置（确保在右轴添加后设置）
@@ -251,8 +254,8 @@ def plot_lines_with_right_area(
             is_symbol_show=False,
             yaxis_index=0,
         ).set_series_opts(
-        linestyle_opts=opts.LineStyleOpts(width=3),
-    )
+            linestyle_opts=opts.LineStyleOpts(width=2),
+        )
 
     # 2. 处理右轴（关键修改部分）
     if right_y_data is not None:

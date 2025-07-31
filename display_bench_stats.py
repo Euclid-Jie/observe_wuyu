@@ -38,7 +38,7 @@ for code in [
     sub_data = bench_basic_data[bench_basic_data["code"] == code]
     ys_data.append(sub_data["AMT"].values // 1e8)
     all_volumeRMB_percent.append(
-        (sub_data["AMT"].values / all_data["AMT"].values) // 0.01 / 100
+        (sub_data["AMT"].values / all_data["AMT"].values) // 0.0001 / 10000
     )
     names.append(bench_info_wind[bench_info_wind["code"] == code]["name"].values[0])
 names[-1] = "微盘股"
@@ -51,21 +51,25 @@ ys_data.insert(-1, small_amt)
 all_volumeRMB_percent.insert(-1, small_amt_percent)
 names.insert(-1, "小市值")
 
-chart1 = plot_stacked_area_with_right_line(
-    sub_data["date"].values,
-    ys_data,
-    names,
-    all_data["AMT"].values // 1e8,
-    "全指成交额(亿)",
-)
-
-chart2 = plot_lines_with_right_area(
+# 成交金额占比
+chart1 = plot_lines_with_right_area(
     sub_data["date"].values,
     all_volumeRMB_percent,
     names,
     all_data["AMT"].values // 1e8,
     "全指成交额(亿)",
+    up_bound=0.5,
 )
+
+# 成交金额(各个宽基) VS 成交金额(微盘)
+chart2 = plot_stacked_area_with_right_line(
+    sub_data["date"].values,
+    ys_data[:-1],
+    names[:-1],
+    ys_data[-1],
+    "微盘成交额(亿)",
+)
+
 
 IH_data = load_bais("IH")
 IH_data.to_csv(Path("data/IH_data.csv"), index=False, encoding="utf-8-sig")
