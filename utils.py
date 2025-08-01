@@ -144,14 +144,11 @@ def plot_stacked_area_with_right_line(
 
     # 左轴颜色系
     color_series = [
-        "#2A4B8C",
-        "#5DAA4D",
-        "#D89B2D",
-        "#C54B2B",
-        "#3A8DAE",
-        "#2F6A5A",
-        "#C75A2E",
-        "#6A4A8A",
+        "#FF6F61",  # Bright Coral
+        "#FFB74D",  # Bright Orange
+        "#4FC3F7",  # Bright Sky Blue
+        "#BA68C8",  # Bright Purple
+        "#B0BEC5",  # Bright Grey
     ]
 
     # 1. 绘制左轴堆叠面积图
@@ -164,9 +161,8 @@ def plot_stacked_area_with_right_line(
             areastyle_opts=opts.AreaStyleOpts(
                 opacity=0.3, color=color_series[i % len(color_series)]
             ),
-            linestyle_opts=opts.LineStyleOpts(
-                width=0, color=color_series[i % len(color_series)]
-            ),
+            color=color_series[i % len(color_series)],
+            linestyle_opts=opts.LineStyleOpts(width=0),
             label_opts=opts.LabelOpts(is_show=False),
             yaxis_index=0,
         )
@@ -193,6 +189,7 @@ def plot_stacked_area_with_right_line(
             yaxis_index=1,
             linestyle_opts=opts.LineStyleOpts(
                 width=2,
+                color="#00B050",
             ),
         )
 
@@ -245,7 +242,19 @@ def plot_lines_with_right_area(
             is_horizontal_center=True,
         )
     ).add_xaxis(list(x_data))
-
+    color_series = [
+        # "#FFA3A6",
+        # "#F8CBAD",
+        # "#99EBFF",
+        # "#C299FF",
+        # "#ACACAC",
+        "#FF6F61",  # Bright Coral
+        "#FFB74D",  # Bright Orange
+        "#4FC3F7",  # Bright Sky Blue
+        "#BA68C8",  # Bright Purple
+        "#B0BEC5",  # Bright Grey
+        "#00B050",  # Green
+    ]
     # 1. 绘制左轴线图
     for i, y_data in enumerate(ys_data):
         line.add_yaxis(
@@ -253,7 +262,7 @@ def plot_lines_with_right_area(
             y_axis=list(y_data),
             is_symbol_show=False,
             yaxis_index=0,
-        ).set_series_opts(
+            color=color_series[i % len(color_series)],
             linestyle_opts=opts.LineStyleOpts(width=2),
         )
 
