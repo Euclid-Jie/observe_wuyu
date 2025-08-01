@@ -264,6 +264,7 @@ def plot_lines_with_right_area(
             yaxis_index=0,
             color=color_series[i % len(color_series)],
             linestyle_opts=opts.LineStyleOpts(width=2),
+            label_opts=opts.LabelOpts(is_show=False), #不实时显示线上的值
         )
 
     # 2. 处理右轴（关键修改部分）
