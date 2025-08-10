@@ -10,10 +10,8 @@ from utils import (
 from datetime import datetime
 from zoneinfo import ZoneInfo
 from utils import load_bais
-import os
 
-SQL_PASSWORDS = os.environ["SQL_PASSWORDS"]
-SQL_HOST = os.environ["SQL_HOST"]
+from config import SQL_PASSWORDS, SQL_HOST
 
 engine = sqlalchemy.create_engine(
     f"mysql+pymysql://dev:{SQL_PASSWORDS}@{SQL_HOST}:3306/UpdatedData?charset=utf8"
