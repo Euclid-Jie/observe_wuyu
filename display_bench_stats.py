@@ -68,7 +68,7 @@ chart2 = plot_stacked_area_with_right_line(
     "微盘成交额(亿)",
 )
 
-
+Path("data").mkdir(parents=True, exist_ok=True)
 IH_data = load_bais("IH")
 IH_data.to_csv(Path("data/IH_data.csv"), index=False, encoding="utf-8-sig")
 IF_data = load_bais("IF")
