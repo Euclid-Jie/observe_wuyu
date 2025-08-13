@@ -9,7 +9,6 @@ from utils import (
 )
 from datetime import datetime
 from zoneinfo import ZoneInfo
-from utils import load_bais
 
 from config import SQL_PASSWORDS, SQL_HOST
 
@@ -68,15 +67,17 @@ chart2 = plot_stacked_area_with_right_line(
     "微盘成交额(亿)",
 )
 
-Path("data").mkdir(parents=True, exist_ok=True)
-IH_data = load_bais("IH")
-IH_data.to_csv(Path("data/IH_data.csv"), index=False, encoding="utf-8-sig")
-IF_data = load_bais("IF")
-IF_data.to_csv(Path("data/IF_data.csv"), index=False, encoding="utf-8-sig")
-IC_data = load_bais("IC")
-IC_data.to_csv(Path("data/IC_data.csv"), index=False, encoding="utf-8-sig")
-IM_data = load_bais("IM")
-IM_data.to_csv(Path("data/IM_data.csv"), index=False, encoding="utf-8-sig")
+columns_in_order = [
+    "日期", "主力合约", "期货价格", "现货价格", "基差",
+    "到期日", "剩余天数", "期内分红", "矫正基差",
+    "主力年化基差(%)", "年化基差(%)"
+]
+# 将字段名中的 % 替换为 %%
+fields = ', '.join([f'`{col.replace("%", "%%")}`' for col in columns_in_order])
+IH_data = pd.read_sql_query(f"SELECT {fields} FROM IH_data", engine)
+IF_data = pd.read_sql_query(f"SELECT {fields} FROM IF_data", engine)
+IC_data = pd.read_sql_query(f"SELECT {fields} FROM IC_data", engine)
+IM_data = pd.read_sql_query(f"SELECT {fields} FROM IM_data", engine)
 fig = plot_lines_chart(
     x_data=IC_data["日期"],
     ys_data=[
@@ -113,7 +114,7 @@ html = f"""<html>
             table, th, td {{
                 border: 1px solid #ddd;
                 padding: 8px;
-                text-align: center; 
+                text-align: center;
             }}
             th {{
                 background-color: #f59e00;
@@ -130,7 +131,7 @@ html = f"""<html>
     </head>
     <body>
     <div style="margin-top: 10px; margin-left: 20px; font-family: 'Calibri', sans-serif;">
-        <div>Last Updated: {datetime.now(ZoneInfo('Asia/Shanghai')).strftime("%Y-%m-%d %H:%M:%S")}</div>  
+        <div>Last Updated: {datetime.now(ZoneInfo('Asia/Shanghai')).strftime("%Y-%m-%d %H:%M:%S")}</div>
         <div style="margin-top: 20px; font-weight: bold; font-size: 25px;text-align: center;">成交金额占比</div>
         {chart1.render_embed()}
         <div style="margin-top: 20px; font-weight: bold; font-size: 25px;text-align: center;">成交金额</div>
