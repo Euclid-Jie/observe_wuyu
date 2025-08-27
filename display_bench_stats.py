@@ -18,7 +18,7 @@ engine = sqlalchemy.create_engine(
 combined_fig = []
 # 读取数据
 bench_basic_data = pd.read_sql_query(
-    "SELECT * FROM bench_basic_data WHERE `date` > '2025-01-01'", engine
+    "SELECT * FROM bench_basic_data WHERE `date` > '2025-01-01' ORDER BY DATE", engine
 )
 bench_basic_data.drop_duplicates(subset=["date", "code"], keep="last", inplace=True)
 bench_info_wind = pd.read_sql_query("SELECT * FROM bench_info_wind", engine)
