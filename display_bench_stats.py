@@ -20,6 +20,7 @@ combined_fig = []
 bench_basic_data = pd.read_sql_query(
     "SELECT * FROM bench_basic_data WHERE `date` > '2025-01-01'", engine
 )
+bench_basic_data.drop_duplicates(subset=["date", "code"], keep="last", inplace=True)
 bench_info_wind = pd.read_sql_query("SELECT * FROM bench_info_wind", engine)
 ys_data = []
 names = []
@@ -68,12 +69,20 @@ chart2 = plot_stacked_area_with_right_line(
 )
 
 columns_in_order = [
-    "日期", "主力合约", "期货价格", "现货价格", "基差",
-    "到期日", "剩余天数", "期内分红", "矫正基差",
-    "主力年化基差(%)", "年化基差(%)"
+    "日期",
+    "主力合约",
+    "期货价格",
+    "现货价格",
+    "基差",
+    "到期日",
+    "剩余天数",
+    "期内分红",
+    "矫正基差",
+    "主力年化基差(%)",
+    "年化基差(%)",
 ]
 # 将字段名中的 % 替换为 %%
-fields = ', '.join([f'`{col.replace("%", "%%")}`' for col in columns_in_order])
+fields = ", ".join([f'`{col.replace("%", "%%")}`' for col in columns_in_order])
 IH_data = pd.read_sql_query(f"SELECT {fields} FROM IH_data", engine)
 IF_data = pd.read_sql_query(f"SELECT {fields} FROM IF_data", engine)
 IC_data = pd.read_sql_query(f"SELECT {fields} FROM IC_data", engine)
