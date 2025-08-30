@@ -55,6 +55,9 @@ jobs:
         env:
           SQL_PASSWORDS: ${{ secrets.SQL_PASSWORDS }}
           SQL_HOST: ${{ secrets.SQL_HOST }}
+          SEND: ${{ secrets.SEND }}
+          PASS: ${{ secrets.PASS }}
+          RECV: ${{ secrets.RECV }}
         run: |
           pip install -r ./requirements.txt
           python3 ./fetch_special_holidays.py
