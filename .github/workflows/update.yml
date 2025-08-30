@@ -43,6 +43,9 @@ jobs:
           fetch-depth: 0
           ref: main  # Checkout main branch
 
+      - name: Update submodules
+        run: git submodule update --init
+
       - name: Set timestamp
         id: timestamp
         run: echo "timestamp=$(date +'%Y-%m-%d %H:%M')" >> $GITHUB_ENV
