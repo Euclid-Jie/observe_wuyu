@@ -1,7 +1,9 @@
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).parent))
 import pandas as pd
 import numpy as np
 import sqlalchemy
-from pathlib import Path
 from utils import (
     plot_lines_chart,
     plot_stacked_area_with_right_line,
@@ -11,6 +13,7 @@ from datetime import datetime
 from zoneinfo import ZoneInfo
 
 from config import SQL_PASSWORDS, SQL_HOST
+from AutoEmail import AutoEmail
 
 engine = sqlalchemy.create_engine(
     f"mysql+pymysql://dev:{SQL_PASSWORDS}@{SQL_HOST}:3306/UpdatedData?charset=utf8"
@@ -160,3 +163,9 @@ html = f"""<html>
 # Write the combined figure to an HTML file
 with open("index.html", "w", encoding="utf-8") as f:
     f.write(html)
+
+AutoEmail.AutoEmail(
+    AutoEmail.EmailParams(
+        title="wuyu网页已更新", content="https://euclid-jie.github.io/observe_wuyu/"
+    )
+)

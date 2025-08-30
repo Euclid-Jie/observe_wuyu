@@ -1,0 +1,3 @@
+[submodule "AutoEmail"]
+	path = AutoEmail
+	url = git@github.com:Euclid-Jie/AutoEmail.git

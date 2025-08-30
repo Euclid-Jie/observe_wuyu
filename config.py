@@ -18,4 +18,13 @@ load_environment()
 SQL_PASSWORDS = os.getenv('SQL_PASSWORDS')
 SQL_HOST = os.getenv('SQL_HOST')
 APPID = os.getenv('APPID')
-APPKEY = os.getenv('APPKEY')
+APPKEY = os.getenv('APPKEY')# 获取环境变量（统一访问点）
+SEND = os.getenv("SEND")
+PASS = os.getenv("PASS")
+RECV = os.getenv("RECV")
+
+# 支持多个收件人（逗号分隔）
+if RECV:
+    RECV = [email.strip() for email in RECV.split(",") if email.strip()]
+else:
+    RECV = []
